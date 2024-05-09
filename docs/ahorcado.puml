@@ -1,0 +1,28 @@
+@startuml ahorcado
+
+class Juego {
+
+}
+
+class Palabra {
+
+}
+
+class Jugador {
+
+}
+
+class Animacion {
+  + reproducirAnimacion(animacion: String): void
+}
+
+class Poder {
+
+}
+
+Juego "1" *-- "1" Palabra
+Juego "1" o-- "1" Jugador
+Juego "1" o-- "0..*" Animacion
+Juego "1" o-- "0..*" Poder
+
+@enduml
