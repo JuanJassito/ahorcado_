@@ -14,25 +14,29 @@ int main(){
     dibujo principal("./assets/images/arbol.txt");
     dibujo eldos("./assets/images/65pix.txt");
     Palabra incognita("./assets/palabras.txt");
-    int fotograma = 0;
+    float fotograma = 0;
 
     while(true){
-        fotograma++;
+        fotograma = fotograma + 0.1 ;
         std::string palabraAleatoria = incognita.getPalabra();
         int longitud = incognita.getLongitudPalabra(palabraAleatoria);
         std::string cadena = std::to_string(longitud);
         this_thread::sleep_for(0.5s);
 
-        Element personaje = spinner(21,fotograma) | bold | color(Color::Red3) | bgcolor(Color::White);
-        Element juego = hbox({text(palabraAleatoria)|border|flex ,text(cadena)|border|flex});
-        Element dibujo = vbox({eldos.getElement()|border,juego}) | color(Color::Red3Bis);
-        
+        //Element personaje = spinner(21,fotograma) | bold | color(Color::Red3) | bgcolor(Color::White);
+        Element salida1 =hbox({filler(),text(palabraAleatoria),filler()})|border|flex;
+        Element salida2 =hbox({filler(),text(cadena),filler()})|border|flex;
+        Element salida3 =hbox({eldos.getElement()})|color(Color::LightGoldenrod2Bis);
+        Element datos = hbox({salida1,salida2})|bold;
+        Element juego = vbox({datos|color(Color::Cyan1),gauge(fotograma)|borderHeavy|color(Color::Red3Bis)});
+        Element titulo = hbox({filler(),text("EL AHORCADO"),filler()})|borderDouble|flex|bold|color(Color::Red3Bis);
+        Element dibujo = vbox({titulo,hbox({salida3|border,juego|border|flex}) });
 
         Screen pantalla = Screen::Create(Dimension::Full());
         Render(pantalla,dibujo);
         pantalla.Print();
         cout<<pantalla.ResetPosition();
     }
-
+    
     return EXIT_SUCCESS;
 }
