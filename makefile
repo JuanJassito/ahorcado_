@@ -3,3 +3,8 @@ bin/ahorcado : src/main.cpp
 
 run : bin/ahorcado
 	./bin/ahorcado
+
+bin/prueba_palabra : src/prueba_palabra.cpp
+	g++ -o bin/prueba_palabra src/prueba_palabra.cpp -Iinclude -std=c++2a
+runPal : bin/prueba_palabra
+	./bin/prueba_palabra
