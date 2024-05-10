@@ -25,7 +25,7 @@ public:
         file.close();
     }
 
-    std::string getPalabra() {
+    std::string getPalabra() const {
         if (words.empty()) {
             std::cerr << "Error: No hay palabras disponibles." << std::endl;
             return "";
@@ -39,6 +39,8 @@ public:
         size_t index = distribution(rng);
         return words[index];
     }
+
+    size_t getLongitudPalabra(const std::string& palabra) const {
+        return palabra.length();
+    }
 };
-
-
