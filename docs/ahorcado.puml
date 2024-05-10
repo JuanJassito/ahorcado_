@@ -13,6 +13,7 @@ class Jugador {
 }
 
 class Animacion {
+  
   + reproducirAnimacion(animacion: String): void
 }
 

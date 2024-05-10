@@ -4,23 +4,26 @@
 #include <thread>
 #include <fstream>
 #include <string> 
+#include <dibujo.hpp>
 
 using namespace std;
 using namespace ftxui;
 
 int main(){
+    dibujo principal("./assets/images/arbol.txt");
     int fotograma = 0;
 
     while(true){
         fotograma++;
         this_thread::sleep_for(0.1s);
+
         Element personaje = spinner(21,fotograma) | bold | color(Color::Red3) | bgcolor(Color::White);
-        Element personaje2 = spinner(21,fotograma) | bold | color(Color::CyanLight) | bgcolor(Color::White);
+        Element dibujo = hbox({personaje,principal.getElement()});
+
         Screen pantalla = Screen::Create(Dimension::Full());
-        Render(pantalla,personaje2);
+        Render(pantalla,dibujo);
         pantalla.Print();
         cout<<pantalla.ResetPosition();
-        fotograma++;
     }
 
     return EXIT_SUCCESS;

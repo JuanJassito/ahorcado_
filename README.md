@@ -1,7 +1,7 @@
 # Ahorcado
 
 ## Objetivo
-El objetivo de este proyecto es hacer una animacion con arte ascii basada en el juego del ahorcado
+El objetivo de este proyecto es hacer una animacion con arte ascii basada en el juego del ***ahorcado***
 
 ### Exploracion
 
@@ -17,17 +17,21 @@ El objetivo de este proyecto es hacer una animacion con arte ascii basada en el 
 # Dependencias
 
 ## FTXUI
-```Bash
-git clone https://github.com/ArthurSonzogni/FTXUI.git
-sudo apt install cmake
-cd FTXUI
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-```
+`git clone https://github.com/ArthurSonzogni/FTXUI.git`
+`sudo apt install cmake`
+`cd FTXUI`
+`mkdir build`
+`cd build`
+`cmake ..`
+`make`
+`sudo make install`
+
 
 ## Plugins VSCode
+- material icon
+- plant uml
+- c/c++
 
 ## Graphviz
+`sudo apt update`
+`sudo apt install graphviz`
