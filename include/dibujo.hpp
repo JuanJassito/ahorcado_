@@ -20,7 +20,7 @@ public:
         {
             elementos1.emplace_back(text(linea));
         }
-        contenido = vbox(elementos1)| color(Color::DarkOrange);
+        contenido = vbox(elementos1);
         archivo.close();
     }
     

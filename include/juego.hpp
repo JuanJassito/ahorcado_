@@ -1,7 +1,9 @@
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <random>
+#include <ctime>
 #include <string>
-#include <cctype> // Para la función std::tolower
-#include <palabra.hpp> // Asegúrate de incluir correctamente el archivo de encabezado de la clase Palabra
 
 class Juego {
 private:
@@ -11,29 +13,23 @@ private:
     int intentosRestantes;
 
 public:
-    Juego(const std::string& filename);
-    void inicializarJuego();
-    void jugar();
-    bool juegoTerminado();
-};
+    Juego(const std::string& filename) : palabraSecreta(filename) {}
 
-Juego::Juego(const std::string& filename) : palabraSecreta(filename) {}
+    void inicializarJuego() {
+        // Inicializar la palabra a adivinar con guiones bajos
+        palabraAdivinada = std::string(palabraSecreta.getLongitudPalabra(palabraSecreta.getPalabra()), '_');
+        letrasUtilizadas = "";
+        intentosRestantes = 6; // Número de intentos permitidos
+    }
 
-void Juego::inicializarJuego() {
-    // Almacenar la palabra secreta en una variable local para mejorar la eficiencia
-    std::string palabra = palabraSecreta.getPalabra();
-
-    // Inicializar la palabra a adivinar con guiones bajos
-    palabraAdivinada = std::string(palabra.length(), '_');
-    letrasUtilizadas = "";
-    intentosRestantes = 6; // Número de intentos permitidos
-}
-
-void Juego::jugar() {
+    void Juego::jugar() {
     // Inicializar el juego
     inicializarJuego();
 
-    while (!juegoTerminado()) {
+    // Crear una cadena para mantener el estado de las letras adivinadas
+    std::string letrasAdivinadas(palabraSecreta.getLongitudPalabra(palabraSecreta.getPalabra()), '_');
+
+    while (intentosRestantes > 0 && palabraAdivinada != palabraSecreta.getPalabra()) {
         // Mostrar estado del juego
         std::cout << "Palabra: " << palabraAdivinada << std::endl;
         std::cout << "Intentos restantes: " << intentosRestantes << std::endl;
@@ -43,15 +39,6 @@ void Juego::jugar() {
         char letra;
         std::cout << "Ingrese una letra: ";
         std::cin >> letra;
-
-        // Convertir la letra a minúsculas
-        letra = std::tolower(letra);
-
-        // Verificar si la entrada es una letra
-        if (!std::isalpha(letra)) {
-            std::cout << "Entrada inválida. Por favor, ingrese solo letras." << std::endl;
-            continue;
-        }
 
         // Verificar si la letra ya fue utilizada
         if (letrasUtilizadas.find(letra) != std::string::npos) {
@@ -65,18 +52,19 @@ void Juego::jugar() {
         // Verificar si la letra está en la palabra secreta
         bool letraAdivinada = false;
         std::string palabra = palabraSecreta.getPalabra();
-        std::vector<size_t> posiciones;
         for (size_t i = 0; i < palabra.length(); ++i) {
             if (palabra[i] == letra) {
-                // Almacenar la posición de la letra adivinada
-                posiciones.push_back(i);
+                // Actualizar la cadena de letras adivinadas
+                letrasAdivinadas[i] = letra;
                 letraAdivinada = true;
             }
         }
 
-        // Actualizar la palabra adivinada según las posiciones
-        for (size_t pos : posiciones) {
-            palabraAdivinada[pos] = letra;
+        // Actualizar la palabra adivinada con las letras adivinadas hasta ahora
+        for (size_t i = 0; i < palabra.length(); ++i) {
+            if (letrasAdivinadas[i] != '_') {
+                palabraAdivinada[i] = letrasAdivinadas[i];
+            }
         }
 
         // Decrementar los intentos si la letra no fue adivinada
@@ -90,15 +78,11 @@ void Juego::jugar() {
         std::cout << "La palabra era: " << palabraSecreta.getPalabra() << std::endl;
         std::cout << "¡Has perdido!" << std::endl;
     } else {
-        std::cout << "La palabra era: " << palabraSecreta.getPalabra() << std::endl;
-        std::cout << "¡Felicidades! ¡Has adivinado la palabra!" << std::endl;
+        std::cout << "¡Felicidades! ¡Has adivinado la palabra: " << palabraSecreta.getPalabra() << "!" << std::endl;
     }
 }
 
-
-bool Juego::juegoTerminado() {
-    return palabraAdivinada == palabraSecreta.getPalabra() || intentosRestantes == 0;
-}
+};
 
 int main() {
     Juego juego("./assets/palabras.txt");
