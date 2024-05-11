@@ -1,29 +1,56 @@
 @startuml ahorcado
 
 class Juego {
-
+    - palabraSecreta: Palabra
+    - palabraAdivinada: string
+    - letrasUtilizadas: string
+    - intentosRestantes: int
+    + Juego(filename: string)
+    + inicializarJuego(): void
+    + jugar(): void
 }
 
 class Palabra {
-
+    - words: vector<string>
+    + Palabra(filename: string)
+    + getPalabra(): string
+    + getLongitudPalabra(palabra: string): size_t
 }
 
 class Jugador {
-
+    - nombre: string
+    - puntaje: int
+    + Jugador(nombre: string, puntaje: int)
+    + usarPoderes(): void
 }
 
-class Acusado{
-
+class Acusado {
+    - razonAcusacion: string
+    - nombre: string
+    - edad: int
+    - porcentajeBrujeria: float
+    + Acusado(razon: string, nombre: string, edad: int, porcentaje: float)
 }
 
+class dibujo {
+    - archivo: ifstream
+    - contenido: Element
+    + dibujo(path: string)
+    + getElement(): Element
+    ~ ~dibujo()
+}
 
 class Poder {
-
+    - nombre: string
+    + Poder(nombre: string)
+    + activar(): void
 }
 
-Juego "1" *-- "1" Palabra
-Juego "1" o-- "1" Jugador
-Juego "1" o-- "0..*" Poder
-Jugador "1" *-- "1.." Poder
+Juego "1" --* "1" Palabra
+Juego "1" --* "1" dibujo
+Juego "1" --> "1" Jugador
+Juego "1" o-- "0..*" Poder 
+Jugador "1" <-- "0..*" Poder 
+Juego "1" <-- "0..*" Acusado 
 
 @enduml
